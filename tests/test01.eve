@@ -1,0 +1,15 @@
+vehicle_id: 2
+type: car, convertible
+engine:   ACME,  diesel
+color: blue
+manufacturer: ACME
+wheels: ACME,   all-weather,  4
+
+
+
+vehicle_id:     01
+type: truck, pickup
+ color  :  silver
+manufacturer:  Goliath Inc.
+engine: Goliath Inc.,  electric
+wheels: ACME, all-weather, 06

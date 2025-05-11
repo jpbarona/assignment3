@@ -1,0 +1,8 @@
+vehicle_id: 1337
+color: black
+cost: 17200
+engine: Consolidated Products, petrol
+manufacturer: Consolidated Products
+type: motorcycle, sport
+valid: true
+wheels: ACME, summer, 2

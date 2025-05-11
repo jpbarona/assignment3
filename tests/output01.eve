@@ -1,0 +1,17 @@
+vehicle_id: 1
+color: silver
+cost: 25900
+engine: Goliath Inc., electric
+manufacturer: Goliath Inc.
+type: truck, pickup
+valid: false
+wheels: ACME, all-weather, 6
+
+vehicle_id: 2
+color: blue
+cost: 22600
+engine: ACME, diesel
+manufacturer: ACME
+type: car, convertible
+valid: true
+wheels: ACME, all-weather, 4
