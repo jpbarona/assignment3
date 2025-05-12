@@ -72,3 +72,9 @@ multiplying the cost per sail by 7.  If a motorVehicle specification is invalid 
 comma-separated values do not make sense, the missing components
 are omitted from the cost.  If a specification is invalid due to repeated fields, you only need to include the cost of the first
 repeated field.  (In practice we are not usually going to be interested in the costs of invalid vehicles.)
+
+# Additional Validation Rules:
+1. schoonerColorIsNot: Schooners cannot be silver
+2. xebecMustBeFromManufacturer: Xebecs must be made by ACME
+3. jet_ski_color: Jet Skis must be pink
+4. cargoShipMustBeFromSpecificMfgr: Cargo ships must be manufactured by ACME
