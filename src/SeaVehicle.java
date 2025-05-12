@@ -31,27 +31,35 @@ public class SeaVehicle extends Vehicle{
             switch(key) {
                 case VEHICLE_ID_STRING:
                     if (this.vehicleId == DEFAULT_SEA_VEHICLE_ID) {this.vehicleId = Integer.parseInt(valueString);}
+                    else {this.repeatedField = true;}
                     break;
                 case COLOR_STRING:
                     if (this.color == null) {this.color = parseValue(valueString);}
+                    else {this.repeatedField = true;}
                     break;
                 case MANUFACTURER_STRING:
                     if (this.manufacturer == null) {this.manufacturer = parseValue(valueString);}
+                    else {this.repeatedField = true;}
                     break;
                 case TYPE_STRING:
                     if (this.type == null) {this.type = parseValue(valueString);}
+                    else {this.repeatedField = true;}
                     break;
                 case ENGINE_STRING:
                     if (this.engine == null) {this.engine = parseValue(valueString);}
+                    else {this.repeatedField = true;}
                     break;
                 case SAILS_STRING:
                     if (this.sails == null) {
                         String[] sailsListRaw = parseValue(valueString);
                         this.sails = parseSails(sailsListRaw);
                     }
+                    else {this.repeatedField = true;}
                     break;
             }
         }
+        this.valid = SeaVehicleValidator.isValid(this) && !this.repeatedField;
+        this.cost = SeaVehicleCost.computeCost(this);
     }
     public static String[] parseSails(String[] sailsList) {
         if (sailsList.length < 2) {return sailsList;}

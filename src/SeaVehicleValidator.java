@@ -10,7 +10,7 @@ public class SeaVehicleValidator {
     public static final String PETROL = "petrol";
     public static final String DIESEL = "diesel";
     public static final String YACHT = "yacht";
-    public static final String CARGO = "cargo";
+    public static final String CARGO = "cargo ship";
     public static final String FRIGATE = "frigate";
     public static final String SCHOONER = "schooner";
     public static final String XEBEC = "xebec";

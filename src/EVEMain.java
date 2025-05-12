@@ -62,13 +62,13 @@ public class EVEMain {
                     Vehicle vehicle = new MotorVehicle(keyValuesList);
                     vehiclesList.add(vehicle);
                     keyValuesList.clear();
-                    break;
+                    return;
                 }
                 if (arrayContains(type, SEA_VEHICLE_TYPES)) {
                     Vehicle vehicle = new SeaVehicle(keyValuesList);
                     vehiclesList.add(vehicle);
                     keyValuesList.clear();
-                    break;
+                    return;
                 }
             }
         }
