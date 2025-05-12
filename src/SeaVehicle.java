@@ -19,6 +19,7 @@ public class SeaVehicle extends Vehicle{
     public String[] sails;
 
     public boolean valid = false;
+    public boolean repeatedField = false;
     public int cost = 0;
 
 
@@ -44,11 +45,25 @@ public class SeaVehicle extends Vehicle{
                     if (this.engine == null) {this.engine = parseValue(valueString);}
                     break;
                 case SAILS_STRING:
-                    if (this.sails == null) {this.sails = parseValue(valueString);}
+                    if (this.sails == null) {
+                        String[] sailsListRaw = parseValue(valueString);
+                        this.sails = parseSails(sailsListRaw);
+                    }
                     break;
             }
         }
     }
+    public static String[] parseSails(String[] sailsList) {
+        if (sailsList.length < 2) {return sailsList;}
+        String[] parsedSails = new String[sailsList.length];
+        parsedSails = sailsList;
+        String numberOfSailsString = sailsList[2];
+        int numberOfSailsInt = Integer.parseInt(numberOfSailsString);
+        String numberOfSailsParsed = String.valueOf(numberOfSailsInt);
+        parsedSails[2] = numberOfSailsParsed;
+        return parsedSails;
+    }
+
     @Override
     public void printVehicle() {
         String idString = String.valueOf(vehicleId);
@@ -56,7 +71,6 @@ public class SeaVehicle extends Vehicle{
         System.out.println(vehicleIdLineString);
         String[] validList = { String.valueOf(valid)};
         String[] costList = { String.valueOf(cost)};
-
         printLineString(COLOR_STRING, this.color);
         printLineString(COST_STRING, costList);
         if (this.engine != null) {printLineString(ENGINE_STRING, this.engine);}
@@ -68,6 +82,6 @@ public class SeaVehicle extends Vehicle{
 
     @Override
     public int getVehicleId() {
-        return 0;
+        return this.vehicleId;
     }
 }

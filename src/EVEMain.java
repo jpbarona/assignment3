@@ -36,7 +36,6 @@ public class EVEMain {
                 addKeyValueToList(line, keyValuesList);
                 justReceivedEntry = true;
         }
-
         if (justReceivedEntry) {
             addVehicle(keyValuesList, vehiclesList);
         }
