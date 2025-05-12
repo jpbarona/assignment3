@@ -22,6 +22,11 @@ public class MotorVehicleValidator {
     private static final int TYPE_LIST_LENGTH = 2;
 
     public static final String EIGHTEEN_WHEELER = "eighteen wheeler";
+    public static final String ACME = "ACME";
+    public static final String ALL_WEATHER = "all-weather";
+    public static final String SEDAN = "sedan";
+    public static final String PURPLE = "purple";
+    public static final String BLACK = "black";
 
     public static boolean validVehicleId(MotorVehicle motorVehicle) {
         return motorVehicle.getVehicleId() > 0;
@@ -41,26 +46,30 @@ public class MotorVehicleValidator {
 
     public static boolean validType(MotorVehicle motorVehicle) {
         String[] typeList = motorVehicle.getType();
+
         if (typeList.length != TYPE_LIST_LENGTH) {return false;}
+
         String generalType = typeList[0];
         String subType = typeList[1];
 
         if (!arrayContains(generalType, GENERAL_VEHICLE_TYPES)) {return false;}
-        if (generalType.equals(CAR)) {return arrayContains(subType, CAR_SUBTYPES);}
-        if (generalType.equals(TRUCK)) {return arrayContains(subType, TRUCK_SUBTYPES);};
-        if (generalType.equals(MOTORCYCLE)) {return arrayContains(subType, MOTORCYCLE_SUBTYPES);}
+        if (generalType.equalsIgnoreCase(CAR)) {return arrayContains(subType, CAR_SUBTYPES);}
+        if (generalType.equalsIgnoreCase(TRUCK)) {return arrayContains(subType, TRUCK_SUBTYPES);};
+        if (generalType.equalsIgnoreCase(MOTORCYCLE)) {return arrayContains(subType, MOTORCYCLE_SUBTYPES);}
 
         return false;
     }
 
     public static boolean validEngine(MotorVehicle motorVehicle) {
         String[] engineList = motorVehicle.getEngine();
+
         if (engineList.length != ENGINE_LIST_LENGTH) {return false;}
+
         String engineManufacturer = engineList[0].strip();
         String fuelType = engineList[1].strip();
         String vehicleType = motorVehicle.getType()[0];
-        if (!arrayContains(engineManufacturer, VALID_MANUFACTURERS)) {return false;}
 
+        if (!arrayContains(engineManufacturer, VALID_MANUFACTURERS)) {return false;}
         if (vehicleType.equals(TRUCK) && fuelType.equals(ELECTRIC)) {return false;}
         if (vehicleType.equals(MOTORCYCLE) && !fuelType.equals(PETROL)) {return false;}
 
@@ -69,14 +78,22 @@ public class MotorVehicleValidator {
 
     public static boolean validWheels(MotorVehicle motorVehicle) {
         String[] wheelsList = motorVehicle.getWheels();
+
         if (wheelsList.length != WHEELS_LIST_LENGTH) {return false;}
+
         String wheelsManufacturer = wheelsList[0];
         String wheelType = wheelsList[1];
+
         if (!arrayContains(wheelsManufacturer, VALID_MANUFACTURERS)) {return false;}
         if (!arrayContains(wheelType, VALID_WHEEL_TYPES)) {return false;}
-        String numberWheelsString = wheelsList[2].strip();
 
-        int numberOfWheels = Integer.parseInt(numberWheelsString);
+        String numberWheelsString = wheelsList[2].strip();
+        int numberOfWheels;
+        try {
+            numberOfWheels = Integer.parseInt(numberWheelsString);
+        } catch (Exception e) {
+            return false;
+        }
 
         String vehicleType = motorVehicle.getType()[0];
         String vehicleSubType = motorVehicle.getType()[1];
@@ -109,6 +126,36 @@ public class MotorVehicleValidator {
                 && motorVehicle.manufacturer != null;
     }
 
+    public static boolean additionalRequirements(MotorVehicle motorVehicle) {
+        String[] wheelsList = motorVehicle.wheels;
+        String[] typeList = motorVehicle.type;
+        String[] colorList = motorVehicle.color;
+        String[] manufacturerList = motorVehicle.manufacturer;
+        if (wheelsList == null) {return false;}
+        if (wheelsList.length < 3) {return false;}
+        if (typeList == null) {return false;}
+        if (typeList.length < 2) {return false;}
+        if (colorList == null) {return false;}
+        if (colorList.length < 1) {return false;}
+        if (manufacturerList == null) {return false;}
+        if (manufacturerList.length < 1) {return false;}
+        String wheelsManufacturer = wheelsList[0];
+        String wheelsType = wheelsList[1];
+        String generalType = typeList[0];
+        String subType = typeList[1];
+        String color = colorList[0];
+        String manufacturer = manufacturerList[0];
+        //Rule 1: Motorcycles cannot have wheels manufactured from ACME
+        if (generalType.equalsIgnoreCase(MOTORCYCLE)) {return !wheelsManufacturer.equalsIgnoreCase(ACME);}
+        //Rule 2: Eighteen wheelers must use all-weather tires
+        if (subType.equalsIgnoreCase(EIGHTEEN_WHEELER)) {return wheelsType.equalsIgnoreCase(ALL_WEATHER);};
+        //Rule 3: Sedans cannot be purple
+        if (subType.equalsIgnoreCase(SEDAN)) {return !color.equalsIgnoreCase(PURPLE);}
+        //Rule 4: Pickup trucks by ACME cannot be black
+        if (subType.equalsIgnoreCase(PICKUP) && manufacturer.equalsIgnoreCase(ACME)) {return !color.equalsIgnoreCase(BLACK);}
+        return true;
+    }
+
     public static boolean isValid(MotorVehicle motorVehicle) {
         if (!fieldsNotNull(motorVehicle)) {
             return false;
@@ -124,7 +171,9 @@ public class MotorVehicleValidator {
 
         boolean allSemantics = idOk && colorOk && mfgOk && typeOk && engineOk && wheelsOk;
 
-        return allSemantics && fieldsNotNull;
+        boolean additionalRequirements = additionalRequirements(motorVehicle);
+
+        return allSemantics && fieldsNotNull && additionalRequirements;
     }
 
     public static void main(String[] args) {

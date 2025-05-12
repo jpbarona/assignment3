@@ -73,3 +73,9 @@ multiplying the cost per wheel by 7.  If a motorVehicle specification is invalid
 comma-separated values do not make sense, the missing components
 are omitted from the cost.  If a specification is invalid due to repeated fields, you only need to include the cost of the first
 repeated field.  (In practice we are not usually going to be interested in the costs of invalid vehicles.)
+
+# Additional Rules
+1. motorcycleWheelsAreNot: Motorcycles cannot have wheels made by ACME
+2. eighteenWheelerTireRequirement: Eighteen-wheelers must use all-weather tires
+3. sedanCarColorIsNot: Sedans cannot be purple
+4. pickupTruckColorByManufacturer: Pickup trucks by ACME cannot be black
