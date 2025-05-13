@@ -131,7 +131,7 @@ public class MotorVehicleCost {
         if (manufacturerList == null) {return 0;}
         if (manufacturerList.length < 1) {return 0;}
         if (engineList == null) {return 0;}
-        if (engineList.length < 1) {return 0;]
+        if (engineList.length < 1) {return 0;}
         int discount = 0;
         String wheelsManufacturer = wheelsList[0];
         String wheelsType = wheelsList[1];
@@ -140,13 +140,14 @@ public class MotorVehicleCost {
         String color = colorList[0];
         String manufacturer = manufacturerList[0];
         String engineManufacturer = engineList[0];
+        String fuelType = engineList[1];
         //Rule 1: Cars manufactured by consolidated products with wheels from Consolidated products get a discount of 573
         if (generalType.equalsIgnoreCase(CAR)
                 && manufacturer.equalsIgnoreCase(CONSOLIDATED_PRODUCTS)
                 && wheelsManufacturer.equalsIgnoreCase(CONSOLIDATED_PRODUCTS))
             {discount += -CONSOLIDATED_PRODUCTS_WHEELS_VEHICLE_DISCOUNT;}
         //Rule 2: Electric cars get a discount of 1116
-        if (subType.equalsIgnoreCase(ELECTRIC)) {discount += -ELECTRIC_VEHICLE_DISCOUNT;}
+        if (fuelType.equalsIgnoreCase(ELECTRIC)) {discount += -ELECTRIC_VEHICLE_DISCOUNT;}
         //Rule 3: Vehicles by Goliath Inc. with summer tires incur a surcharge of 587
         if (manufacturer.equalsIgnoreCase(GOLIATH_INC) && wheelsType.equalsIgnoreCase(SUMMER))
             {discount += GOLIATH_SUMMER_TIRES_SURCHARGE;}
