@@ -78,3 +78,9 @@ repeated field.  (In practice we are not usually going to be interested in the c
 2. xebecMustBeFromManufacturer: Xebecs must be made by ACME
 3. jet_ski_color: Jet Skis must be pink
 4. cargoShipMustBeFromSpecificMfgr: Cargo ships must be manufactured by ACME
+
+# Additional Cost Rules:
+1. cargoShipDiscountByMfgr: ACME Cargo Ships receive a 5782 discount
+2. schoonerSailMaterialDiscount: Schooners with mylar sails receive a 2149 discount
+3. jetSkiColors: gold, purple, and orange Jet Skis have a discount of 440
+4. petrolEngineVesselDiscount: Powered vessels with petrol engines receive a 792 discount

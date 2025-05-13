@@ -32,6 +32,7 @@ public class MotorVehicleCost {
 
     public static int typeCost(MotorVehicle motorVehicle) {
         String[] typeList = cleanseArrayStrings(motorVehicle.getType());
+        if (typeList == null) {return 0;}
         if (typeList.length<2) {return 0;}
         String generalType = typeList[0].toLowerCase();
         String subType     = typeList[1].toLowerCase();
@@ -62,6 +63,7 @@ public class MotorVehicleCost {
 
     public static int engineCost(MotorVehicle motorVehicle) {
         String[] engineList = cleanseArrayStrings(motorVehicle.getEngine());
+        if (engineList == null) {return 0;}
         if (engineList.length < 2) {return 0;}
         String fuelType = engineList[1];
         return switch (fuelType) {
@@ -74,7 +76,14 @@ public class MotorVehicleCost {
 
      public static int wheelsCost(MotorVehicle motorVehicle) {
         String[] wheelsList = motorVehicle.getWheels();
-        int numberOfWheels = Integer.parseInt(wheelsList[2]);
+        int numberOfWheels;
+        try {
+        numberOfWheels = Integer.parseInt(wheelsList[2]);
+        } catch (Exception e) {
+            return 0;
+        }
+        if (wheelsList == null) {return 0;}
+        if (wheelsList.length < 2) {return 0;}
         String wheelType = wheelsList[1];
         return switch(wheelType) {
             case SUMMER -> SUMMER_WHEELS_COST * numberOfWheels;
