@@ -29,6 +29,12 @@ public class MotorVehicleCost {
     public static final String SUMMER = "summer";
     public static final String WINTER = "winter";
     public static final String ALL_WEATHER = "all-weather";
+    public static final String CONSOLIDATED_PRODUCTS = "Consolidated Products";
+    public static final int CONSOLIDATED_PRODUCTS_WHEELS_VEHICLE_DISCOUNT = 573;
+    public static final int ELECTRIC_VEHICLE_DISCOUNT = 1116;
+    public static final String GOLIATH_INC = "Goliath Inc.";
+    public static final int GOLIATH_SUMMER_TIRES_SURCHARGE = 587;
+    public static final int GOLIATH_ENGINE_CAR_DISCOUNT = 554;
 
     public static int typeCost(MotorVehicle motorVehicle) {
         String[] typeList = cleanseArrayStrings(motorVehicle.getType());
@@ -97,7 +103,8 @@ public class MotorVehicleCost {
         int typeCost = typeCost(motorVehicle);
         int engineCost = engineCost(motorVehicle);
         int wheelsCost = wheelsCost(motorVehicle);
-        return typeCost + engineCost + wheelsCost;
+        int additionalRequirements = additionalCostRequirements(motorVehicle);
+        return typeCost + engineCost + wheelsCost + additionalRequirements;
      }
 
     private static String[] cleanseArrayStrings(String[] original) {
@@ -107,6 +114,49 @@ public class MotorVehicleCost {
             cleaned[i] = original[i].strip().toLowerCase();
         }
         return cleaned;
+    }
+
+    public static int additionalCostRequirements(MotorVehicle motorVehicle) {
+        String[] wheelsList = motorVehicle.wheels;
+        String[] typeList = motorVehicle.type;
+        String[] colorList = motorVehicle.color;
+        String[] manufacturerList = motorVehicle.manufacturer;
+        String[] engineList = motorVehicle.getEngine();
+        if (wheelsList == null) {return 0;}
+        if (wheelsList.length < 3) {return 0;}
+        if (typeList == null) {return 0;}
+        if (typeList.length < 2) {return 0;}
+        if (colorList == null) {return 0;}
+        if (colorList.length < 1) {return 0;}
+        if (manufacturerList == null) {return 0;}
+        if (manufacturerList.length < 1) {return 0;}
+        if (engineList == null) {return 0;}
+        if (engineList.length < 1) {return 0;]
+        int discount = 0;
+        String wheelsManufacturer = wheelsList[0];
+        String wheelsType = wheelsList[1];
+        String generalType = typeList[0];
+        String subType = typeList[1];
+        String color = colorList[0];
+        String manufacturer = manufacturerList[0];
+        String engineManufacturer = engineList[0];
+        //Rule 1: Cars manufactured by consolidated products with wheels from Consolidated products get a discount of 573
+        if (generalType.equalsIgnoreCase(CAR)
+                && manufacturer.equalsIgnoreCase(CONSOLIDATED_PRODUCTS)
+                && wheelsManufacturer.equalsIgnoreCase(CONSOLIDATED_PRODUCTS))
+            {discount += -CONSOLIDATED_PRODUCTS_WHEELS_VEHICLE_DISCOUNT;}
+        //Rule 2: Electric cars get a discount of 1116
+        if (subType.equalsIgnoreCase(ELECTRIC)) {discount += -ELECTRIC_VEHICLE_DISCOUNT;}
+        //Rule 3: Vehicles by Goliath Inc. with summer tires incur a surcharge of 587
+        if (manufacturer.equalsIgnoreCase(GOLIATH_INC) && wheelsType.equalsIgnoreCase(SUMMER))
+            {discount += GOLIATH_SUMMER_TIRES_SURCHARGE;}
+        //Rule 4: Cars manufactured by Goliath Inc. with an engine from the same manufacturer gets a discount of 554
+        if (generalType.equalsIgnoreCase(CAR) &&
+            manufacturer.equalsIgnoreCase(GOLIATH_INC) &&
+            engineManufacturer.equalsIgnoreCase(GOLIATH_INC))
+            {discount += -GOLIATH_ENGINE_CAR_DISCOUNT;}
+
+        return discount;
     }
 
 }

@@ -96,12 +96,13 @@ public class SeaVehicleCost {
         if (colorList.length != 1) {return 0;}
         if (manufacturerList == null) {return 0;}
         if (manufacturerList.length < 1) {return 0;}
+        int discount = 0;
         String color = colorList[0];
         String generalType = typeList[0];
         String subType = typeList[1];
         String manufacturer = manufacturerList[0];
         //Rule 1: ACME Cargo ships receive a 5782 discount
-        if (subType.equalsIgnoreCase(CARGO) && manufacturer.equalsIgnoreCase(ACME)) {return -ACME_CARGO_SHIP_DISCOUNT;}
+        if (subType.equalsIgnoreCase(CARGO) && manufacturer.equalsIgnoreCase(ACME)) {discount+= -ACME_CARGO_SHIP_DISCOUNT;}
         //Rule 2: Schooners with mylar sails receive a 2149 discount
         if (subType.equalsIgnoreCase(SCHOONER)) {
             String[] sails = seaVehicle.sails;
@@ -109,19 +110,19 @@ public class SeaVehicleCost {
             if (sails.length < 3) {return 0;}
             String material = sails[1];
             if (material.equalsIgnoreCase(MYLAR)) {
-                return -MYLAR_SCHOONER_DISCOUNT;
+                discount+= -MYLAR_SCHOONER_DISCOUNT;
             }
         }
         //Rule 3: Gold, purple and orange jet skis have a discount of 440
-        if (subType.equalsIgnoreCase(JETSKI) && arrayContains(color, JETSKI_COLORS_FOR_DISCOUNT)) {return -JETSKI_COLOR_DISCOUNT;}
+        if (subType.equalsIgnoreCase(JETSKI) && arrayContains(color, JETSKI_COLORS_FOR_DISCOUNT)) {discount+= -JETSKI_COLOR_DISCOUNT;}
         //Rule 4: Powered vessels with Petrol engines receive a 792 discount
         if (generalType.equalsIgnoreCase(POWERED_VESSEL)) {
             String[] engineList = seaVehicle.engine;
             if (engineList == null) {return 0;}
             String fuelType = engineList[1];
-            if (fuelType.equalsIgnoreCase(PETROL)) {return -POWERED_VESSELS_PETROL_DISCOUNT;}
+            if (fuelType.equalsIgnoreCase(PETROL)) {discount+= -POWERED_VESSELS_PETROL_DISCOUNT;}
         }
-        return 0;
+        return discount;
     }
 
     private static boolean arrayContains(Object target, Object[] array) {
