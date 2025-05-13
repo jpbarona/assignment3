@@ -147,7 +147,7 @@ public class MotorVehicleCost {
                 && wheelsManufacturer.equalsIgnoreCase(CONSOLIDATED_PRODUCTS))
             {discount += -CONSOLIDATED_PRODUCTS_WHEELS_VEHICLE_DISCOUNT;}
         //Rule 2: Electric cars get a discount of 1116
-        if (fuelType.equalsIgnoreCase(ELECTRIC)) {discount += -ELECTRIC_VEHICLE_DISCOUNT;}
+        if (fuelType.equalsIgnoreCase(ELECTRIC) && generalType.equalsIgnoreCase(CAR)) {discount += -ELECTRIC_VEHICLE_DISCOUNT;}
         //Rule 3: Vehicles by Goliath Inc. with summer tires incur a surcharge of 587
         if (manufacturer.equalsIgnoreCase(GOLIATH_INC) && wheelsType.equalsIgnoreCase(SUMMER))
             {discount += GOLIATH_SUMMER_TIRES_SURCHARGE;}
